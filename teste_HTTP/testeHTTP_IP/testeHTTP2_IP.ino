@@ -111,60 +111,60 @@ void handle_OnConnect() {
 
 //============COLAR
 void handle_ligarColar() {
-  LED1status = HIGH;
+  ledColarStatus = HIGH;
   Serial.println("GPIO7 Status: ON");
-  server.send(200, "text/html", SendHTML(true,LED2status)); 
+  server.send(200, "text/html", SendHTML(true, ledJanelaStatus, ledOlhosStatus, ledCrabStatus)); 
 }
 //--
 void handle_desligarColar() {
-  LED1status = LOW;
+  ledColarStatus = LOW;
   Serial.println("GPIO7 Status: OFF");
-  server.send(200, "text/html", SendHTML(false,LED2status)); 
+  server.send(200, "text/html", SendHTML(false, ledJanelaStatus, ledOlhosStatus, ledCrabStatus)); 
 }
 
 
 
 //=============JANELA
-void handle_led3on() {
-  LED3status = HIGH;
+void handle_ligarJanela() {
+  ledJanelaStatus = HIGH;
   Serial.println("GPIO6 Status: ON");
-  server.send(200, "text/html", SendHTML(LED3status,true)); 
+  server.send(200, "text/html", SendHTML(ledColarStatus, true, ledOlhosStatus, ledCrabStatus)); 
 }
 //--
-void handle_led4off() {
-  LED4status = LOW;
+void handle_desligarJanela() {
+  ledJanelaStatus = LOW;
   Serial.println("GPIO6 Status: OFF");
-  server.send(200, "text/html", SendHTML(LED4status,false)); 
+  server.send(200, "text/html", SendHTML(ledColarStatus, false, ledOlhosStatus, ledCrabStatus)); 
 }
 
 
 
 //==============OLHOS
-void handle_led3on() {
-  LED3status = HIGH;
+void handle_ligarOlhos() {
+  ledOlhosStatus = HIGH;
   Serial.println("GPIO5 Status: ON");
-  server.send(200, "text/html", SendHTML(LED1status,true)); 
+  server.send(200, "text/html", SendHTML(ledColarStatus, ledJanelaStatus, true, ledCrabStatus)); 
 }
 //--
-void handle_led2off() {
-  LED2status = LOW;
+void handle_desligarOlhos() {
+  ledOlhosStatus = LOW;
   Serial.println("GPIO5 Status: OFF");
-  server.send(200, "text/html", SendHTML(LED1status,false)); 
+  server.send(200, "text/html", SendHTML(ledColarStatus, ledJanelaStatus, false, ledCrabStatus)); 
 }
 
 
 
 //==============CRAB
-void handle_led2on() {
-  LED2status = HIGH;
+void handle_ligarCrab() {
+  ledCrabStatus = HIGH;
   Serial.println("GPIO2 Status: ON");
-  server.send(200, "text/html", SendHTML(LED1status,true)); 
+  server.send(200, "text/html", SendHTML(ledColarStatus, ledJanelaStatus, ledOlhosStatus, true)); 
 }
 //--
-void handle_led2off() {
-  LED2status = LOW;
+void handle_desligarCrab() {
+  ledCrabStatus = LOW;
   Serial.println("GPIO2 Status: OFF");
-  server.send(200, "text/html", SendHTML(LED1status,false)); 
+  server.send(200, "text/html", SendHTML(ledColarStatus, ledJanelaStatus, ledOlhosStatus, false)); 
 }
 
 void handle_NotFound(){
@@ -192,15 +192,25 @@ String SendHTML(uint8_t colarStatus, uint8_t janelaStatus, uint8_t olhosStatus, 
   ptr +="<h1>ESP8266 Web Server</h1>\n";
     ptr +="<h3>Using Station(STA) Mode</h3>\n";
   
-   if(led1stat)
-  {ptr +="<p>LED1 Status: ON</p><a class=\"button button-off\" href=\"/led1off\">OFF</a>\n";}
+   if(colarStatus)
+  {ptr +="<p>Colar Status: ON</p><a class=\"button button-off\" href=\"/led1off\">OFF</a>\n";}
   else
-  {ptr +="<p>LED1 Status: OFF</p><a class=\"button button-on\" href=\"/led1on\">ON</a>\n";}
+  {ptr +="<p>Colar Status: OFF</p><a class=\"button button-on\" href=\"/led1on\">ON</a>\n";}
 
-  if(led2stat)
-  {ptr +="<p>LED2 Status: ON</p><a class=\"button button-off\" href=\"/led2off\">OFF</a>\n";}
+  if(janelaStatus)
+  {ptr +="<p>Janela Status: ON</p><a class=\"button button-off\" href=\"/led2off\">OFF</a>\n";}
   else
-  {ptr +="<p>LED2 Status: OFF</p><a class=\"button button-on\" href=\"/led2on\">ON</a>\n";}
+  {ptr +="<p>Janela Status: OFF</p><a class=\"button button-on\" href=\"/led2on\">ON</a>\n";}
+ 
+  if(olhosStatus)
+  {ptr +="<p>Olhos Status: ON</p><a class=\"button button-off\" href=\"/led2off\">OFF</a>\n";}
+  else
+  {ptr +="<p>Olhos Status: OFF</p><a class=\"button button-on\" href=\"/led2on\">ON</a>\n";}
+  
+  if(crabStatus)
+  {ptr +="<p>Crab Status: ON</p><a class=\"button button-off\" href=\"/led2off\">OFF</a>\n";}
+  else
+  {ptr +="<p>Crab Status: OFF</p><a class=\"button button-on\" href=\"/led2on\">ON</a>\n";}
 
   ptr +="</body>\n";
   ptr +="</html>\n";
