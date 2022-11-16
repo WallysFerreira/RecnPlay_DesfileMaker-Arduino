@@ -26,11 +26,11 @@ bool LED4status = LOW;  //chave liga/desliga
 void setup() {
   Serial.begin(115200);
   delay(100);
-  pinMode(ledJanelas, OUTPUT);
-  pinMode(LED2pin, OUTPUT);
+  pinMode(ledColar, OUTPUT);
+  pinMode(ledJanela, OUTPUT);
   //---novo
-  pinMode(LED3pin, OUTPUT);
-  pinMode(LED4pin, OUTPUT);
+  pinMode(ledOlhos, OUTPUT);
+  pinMode(ledCrab, OUTPUT);
 
 
   Serial.println("Connecting to ");
@@ -69,26 +69,26 @@ void setup() {
 //===========================================================MAIN LOOP=====================================================
 void loop() {
   server.handleClient();
-  if(LED1status)
-  {digitalWrite(LED1pin, HIGH);}
+  if(ledColarStatus)
+  {digitalWrite(ledColar, HIGH);}
   else
-  {digitalWrite(LED1pin, LOW);}
+  {digitalWrite(ledColar, LOW);}
   
-  if(LED2status)
-  {digitalWrite(LED2pin, HIGH);}
+  if(ledJanelaStatus)
+  {digitalWrite(ledJanela, HIGH);}
   else
-  {digitalWrite(LED2pin, LOW);}
+  {digitalWrite(ledJanela, LOW);}
 
 //---novo
-  if(LED3status)
-  {digitalWrite(LED3pin, HIGH);}
+  if(ledOlhosStatus)
+  {digitalWrite(ledOlhos, HIGH);}
   else
-  {digitalWrite(LED3pin, LOW);}
+  {digitalWrite(ledOlhos, LOW);}
 
-  if(LED4status)
-  {digitalWrite(LED4pin, HIGH);}
+  if(ledCrabStatus)
+  {digitalWrite(ledCrab, HIGH);}
   else
-  {digitalWrite(LED4pin, LOW);}
+  {digitalWrite(ledCrab, LOW);}
 
 }
 
@@ -98,11 +98,11 @@ void loop() {
 
 //===========================================================FUNCOES=====================================================
 void handle_OnConnect() {
-  LED1status = LOW;
-  LED2status = LOW;
+  ledColar = LOW;
+  ledJanela = LOW;
 //---novo
-  LED3status = LOW;
-  LED4status = LOW;
+  ledOlhos = LOW;
+  ledCrab = LOW;
   Serial.println("GPIO7 Status: OFF | GPIO6 Status: OFF | GPIO5 Status: OFF | GPIO2 Status: OFF");
   server.send(200, "text/html", SendHTML(LED1status,LED2status)); 
 }
@@ -174,7 +174,7 @@ void handle_NotFound(){
 
 
 
-String SendHTML(uint8_t led1stat,uint8_t led2stat){
+String SendHTML(uint8_t colarStatus, uint8_t janelaStatus, uint8_t olhosStatus, uint8_t crabStatus){
   String ptr = "<!DOCTYPE html> <html>\n";
   ptr +="<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\">\n";
   ptr +="<title>LED Control</title>\n";
